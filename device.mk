@@ -118,6 +118,9 @@ PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0 \
     libbthost_if
 
+# Installs gsi keys into ramdisk, to boot a GSI with verified boot.
+$(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
+
 # Boot animation
 TARGET_SCREEN_HEIGHT := 2160
 TARGET_SCREEN_WIDTH := 1080
