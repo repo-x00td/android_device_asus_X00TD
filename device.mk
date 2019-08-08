@@ -138,6 +138,19 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.configstore@1.0-service
 
+ # Debug Options    
+PRODUCT_PROPERTY_OVERRIDES += \
+   persist.dbg.ims_volte_enable=1 \
+   persist.dbg.volte_avail_ovr=1 \
+   persist.dbg.vt_avail_ovr=1 \
+   persist.dbg.wfc_avail_ovr=1
+
+ # Radio Options   
+PRODUCT_PROPERTY_OVERRIDES += \
+   persist.vendor.radio.data_ltd_sys_ind=1 \
+   persist.vendor.radio.data_con_rprt=1 \
+   persist.radio.calls.on.ims=1   
+
 # Display
 PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0-impl \
