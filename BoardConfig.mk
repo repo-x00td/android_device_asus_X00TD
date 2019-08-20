@@ -22,7 +22,7 @@
 # definition file).
 #
 
-DEVICE_PATH := device/asus/X00TD
+DEVICE_PATH := device/asus/X00T
 
 BOARD_VENDOR := asus
 
@@ -61,10 +61,10 @@ BOARD_KERNEL_PAGESIZE    := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_RAMDISK_OFFSET     := 0x01000000
 TARGET_KERNEL_SOURCE := kernel/asus/sdm660
-TARGET_KERNEL_CONFIG := X00TD_defconfig
+TARGET_KERNEL_CONFIG := X00T_defconfig
 TARGET_KERNEL_VERSION := 4.4
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
-TARGET_KERNEL_CLANG_COMPILE := true
+#TARGET_KERNEL_CLANG_COMPILE := true
 
 # ANT+
 BOARD_ANT_WIRELESS_DEVICE := "qualcomm-hidl"
@@ -218,7 +218,7 @@ BOARD_USES_QCOM_HARDWARE := true
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/recovery.fstab
 
 # Releasetools
-TARGET_RECOVERY_UPDATER_LIBS := librecovery_updater_X00TD
+TARGET_RECOVERY_UPDATER_LIBS := librecovery_updater_X00T
 TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)
 
 # RIL
@@ -241,8 +241,8 @@ BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/private
 TARGET_USE_SDCLANG := true
 
 # Vendor init
-TARGET_INIT_VENDOR_LIB := libinit_X00TD
-TARGET_RECOVERY_DEVICE_MODULES := libinit_X00TD
+TARGET_INIT_VENDOR_LIB := libinit_X00T
+TARGET_RECOVERY_DEVICE_MODULES := libinit_X00T
 
 # Wifi
 BOARD_HAS_QCOM_WLAN := true
@@ -263,4 +263,4 @@ WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
 PRODUCT_DEXPREOPT_SPEED_APPS += SystemUI
 
 # inherit from the proprietary version
--include vendor/asus/X00TD/BoardConfigVendor.mk
+-include vendor/asus/X00T/BoardConfigVendor.mk
