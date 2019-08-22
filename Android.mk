@@ -116,4 +116,15 @@ $(BT_FIRMWARE_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
 
 ALL_DEFAULT_INSTALLED_MODULES += $(BT_FIRMWARE_SYMLINKS)
 
+#Stock Snapdragon Camera symlinks
+
+ SNAP_LIBS := libarcsoft_beautyshot.so libarcsoft_night_shot.so libc++.so libjni_hq_beautyshot.so libjni_hq_night_shot.so libjni_imageutil.so libjni_snapcammosaic.so libjni_snapcamtinyplanet.so libmpbase.so
+SNAP_SYMLINKS := $(addprefix $(TARGET_OUT_APPS_PRIVILEGED)/Snapcam/lib/arm64/,$(notdir $(SNAP_LIBS)))
+$(SNAP_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
+	@echo "SNAP lib link: $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) ln -sf /system/lib64/$(notdir $@) $@
+
+ ALL_DEFAULT_INSTALLED_MODULES += $(SNAP_SYMLINKS)
 endif
