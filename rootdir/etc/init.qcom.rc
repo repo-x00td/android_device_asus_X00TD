@@ -223,13 +223,13 @@ on boot
     chown wifi wifi /sys/class/net/bond0/bonding/queue_id
 
     # Allow access to emmc rawdump block partition and dload sysfs node
-    chown root system "/dev/block/bootdevice/by-name/rawdump -p /dev/block/"
-    chmod 0660 "/dev/block/bootdevice/by-name/rawdump -p /dev/block/"
+    chown root system /dev/block/bootdevice/by-name/rawdump
+    chmod 0660 /dev/block/bootdevice/by-name/rawdump
     chown root system /sys/kernel/dload/emmc_dload
     chmod 0660 /sys/kernel/dload/emmc_dload
-    chown root system "/dev/block/bootdevice/by-name/ramdump -p /dev/block/"
-    chmod 0660 "/dev/block/bootdevice/by-name/ramdump -p /dev/block/"
-    chown root system "/sys/kernel/dload/dload_mode"
+    chown root system /dev/block/bootdevice/by-name/ramdump
+    chmod 0660 /dev/block/bootdevice/by-name/ramdump
+    chown root system /sys/kernel/dload/dload_mode
     chmod 0660 /sys/kernel/dload/dload_mode
 
     chown system system /sys/class/backlight/panel0-backlight/brightness
@@ -477,7 +477,7 @@ on property:sys.boot_completed=1
 
 on property:sys.nvram.btmac=*
     start vendor-btmac-sh
-    restart vendor.bluetooth-1-0-qti
+
 # Huaqin add for bt/wifi prop by zhouyingchen at 2018/03/23 end
 
 service vendor-btmac-sh  /vendor/bin/init.btmac.sh
@@ -595,8 +595,8 @@ service qcom-c_main-sh /vendor/bin/init.class_main.sh
 
 on property:vold.decrypt=trigger_restart_framework
     start qcom-c_main-sh
-    restart vendor.camera-provider-2-4
-    restart vendor.audio-hal-2-0
+
+
     start wcnss-service
 
 on property:persist.env.fastdorm.enabled=true
