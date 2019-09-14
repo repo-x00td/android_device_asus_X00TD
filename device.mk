@@ -460,8 +460,8 @@ PRODUCT_PACKAGES += \
     vr.sdm660
 
 # WFD
-PRODUCT_PACKAGES += \
-    libnl
+#PRODUCT_PACKAGES += \
+#    libnl
 
 #PRODUCT_BOOT_JARS += \
 #    WfdCommon
