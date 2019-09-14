@@ -113,6 +113,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=480 \
     sdm.debug.rotator_downscale=1 \
     vendor.display.enable_default_color_mode=1
+	
+# IOP
+PRODUCT_PROPERTY_OVERRIDES += \
+	vendor.iop.enable_uxe=1
+	vendor.iop.enable_prefetch_ofr=1
+	vendor.perf.iop_v3.enable=1
 
 # Media
 PRODUCT_PROPERTY_OVERRIDES += \
