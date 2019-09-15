@@ -63,6 +63,7 @@ on init
 
 on post-fs
     chmod 0755 /sys/kernel/debug/tracing
+    chown system system /sys/class/timed_output/vibrator/vtg_level
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
@@ -83,7 +84,9 @@ on early-boot
     chmod 0664 /persist/sensors/sensors_settings
 
     chown system system /mnt/vendor/persist/sensors
+    # Huaqin modify for ZQL1820P1-122 by zhuqiang at 2018/11/12 start
     chown system system /mnt/vendor/persist/sensors/sns.reg
+    # Huaqin modify for ZQL1820P1-122 by zhuqiang at 2018/11/12 end
     chown system system /mnt/vendor/persist/sensors/sensors_list.txt
     chown system system /mnt/vendor/persist/sensors/registry
     chown system system /mnt/vendor/persist/sensors/registry/registry
@@ -94,10 +97,6 @@ on early-boot
     chmod 0664 /mnt/vendor/persist/sensors/sensors_settings
 
 on boot
-    # Prevents permission denied error for telephony
-    chmod 0644 /proc/cmdline
-    chown root radio /proc/cmdline
-
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth net_bt /sys/class/rfkill/rfkill0/type
     chown bluetooth net_bt /sys/class/rfkill/rfkill0/state
@@ -162,6 +161,7 @@ on boot
 
     setprop ro.telephony.call_ring.multiple false
 
+    #enable camera read sensors data
     # Huaqin add for 1261108 by huqian at 2018/11/29 start
     # Huaqin add for ZQL1820P1-27 by huqian at 2018/11/12 start
     setprop persist.vendor.camera.gyro.disable 0
@@ -348,6 +348,8 @@ on post-fs-data
     chmod 0664 /sys/devices/platform/msm_sdcc.3/polling
     chmod 0664 /sys/devices/platform/msm_sdcc.4/polling
 
+    chown system system /sys/class/timed_output/vibrator/vtg_level    
+    chmod 0660 /sys/class/timed_output/vibrator/vtg_level
 #Hua Qin <zhengwu.lu><2018-01-24> modify for ito test function node permission 1650-181 begin
 
     chown system system /sys/devices/platform/tp_wake_switch/factory_check
@@ -376,6 +378,14 @@ on post-fs-data
     mkdir /data/vendor/location-partner/ppe 0770 gps gps
     mkdir /dev/socket/location 0770 gps gps
     mkdir /dev/socket/location/ehub 0770 gps gps
+
+# Permissions for Touch dclick Mode
+    chown system system /sys/kernel/touchpanel/dclicknode
+    chmod 0664 /sys/kernel/touchpanel/dclicknode
+
+# Permissions for Touch Gesture Mode
+    chown system system /sys/kernel/touchpanel/gesture_mode
+    chmod 0664 /sys/kernel/touchpanel/gesture_mode
 
     # Create /data/time folder for time-services
     mkdir /data/vendor/time/ 0700 system system
@@ -517,9 +527,10 @@ on property:persist.vendor.ssr.enable_ramdumps=0
 
 on property:sys.boot_completed=1
     write /dev/kmsg "Boot completed "
-    #Reset read ahead for dm-0 and dm-1 to 128kb
-    write /sys/block/dm-0/queue/read_ahead_kb 128
-    write /sys/block/dm-1/queue/read_ahead_kb 128
+    #Reset read ahead for dm-0 and dm-1 to 512kb
+    write /sys/block/dm-0/queue/read_ahead_kb 512
+    write /sys/block/dm-1/queue/read_ahead_kb 512
+
     #WDSP FW boot sysfs node used by STHAL
     chown media audio /sys/kernel/wdsp0/boot
     chown media audio /sys/kernel/wcd_cpe0/fw_name
@@ -566,8 +577,6 @@ service qcom-c_main-sh /vendor/bin/init.class_main.sh
 
 on property:vold.decrypt=trigger_restart_framework
     start qcom-c_main-sh
-
-
     start wcnss-service
 
 on property:persist.env.fastdorm.enabled=true

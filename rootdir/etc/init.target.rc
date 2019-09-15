@@ -50,6 +50,9 @@ on fs
     mkdir /mnt/vendor/persist/bms 0700 root system
     restorecon_recursive /mnt/vendor/persist
     write /sys/kernel/boot_adsp/boot 1
+    mkdir /persist/rfs/msm/slpi 0770 system system
+    mkdir /persist/rfs/mdm/slpi 0770 system system
+    mkdir /persist/rfs/mdm/tn 0770 system system
 
 on post-fs
     start vendor.qseecomd
@@ -79,6 +82,7 @@ on boot
     write /dev/cpuset/background/cpus 0-7
     write /dev/cpuset/system-background/cpus 0-7
     write /dev/cpuset/restricted/cpus 0-7
+
     ####Regionalization config and prop files####
     chmod 0644 /persist/speccfg/spec
     chmod 0644 /persist/speccfg/devicetype
