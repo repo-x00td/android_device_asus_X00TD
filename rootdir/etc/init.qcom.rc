@@ -158,6 +158,12 @@ on boot
 
     setprop ro.telephony.call_ring.multiple false
 
+    #enable camera read sensors data
+    # Huaqin add for 1261108 by huqian at 2018/11/29 start
+    # Huaqin add for ZQL1820P1-27 by huqian at 2018/11/12 start
+    setprop persist.vendor.camera.gyro.disable 0
+    # Huaqin add for ZQL1820P1-27 by huqian at 2018/11/12 end
+    # Huaqin add for 1261108 by huqian at 2018/11/29 end
     #Remove SUID bit for iproute2 ip tool
     chmod 0755 /system/bin/ip
 
@@ -177,10 +183,16 @@ on boot
     # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
 
+    #Huaqin modify for TT1244863 by suochuanqi on 2018/10/09 start
+    write /sys/bus/msm_subsys/devices/subsys4/restart_level related
+    #Huaqin modify for TT1244863 by suochuanqi on 2018/10/09 end
     # Set the console loglevel to < KERN_INFO
     # Set the default message loglevel to KERN_INFO
     write /proc/sys/kernel/printk "6 6 1 7"
 
+    #Huaqin modify for 1650P 1285483 by guanyebin on 2019/2/25 start
+    write /proc/sys/net/ipv4/tcp_mtu_probing 2
+    #Huaqin modify for 1650P 1285483 by guanyebin on 2019/2/25 end
     # Allow access for CCID command/response timeout configuration
     chown system system /sys/module/ccid_bridge/parameters/bulk_msg_timeout
 
@@ -270,6 +282,21 @@ on post-fs-data
     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
 
+    # Huaqin add for ZQL1650-126 CountryCode by yangzhiyuan at 2018/01/23 start
+    mkdir /persist/flag 0771 system system
+    chown system system /persist/flag
+
+    chown system system /persist/flag/countrycode.txt
+    chmod 0644 /persist/flag/countrycode.txt
+    chown system system /persist/flag/cid.txt
+    chmod 0644 /persist/flag/cid.txt
+    chown system system /persist/flag/colorid.txt
+    chmod 0644 /persist/flag/colorid.txt
+    # Huaqin add for MULTI SIM by jindaolun at 2018/3/1 start
+    chown system system /persist/flag/multisim.txt
+    chmod 0644 /persist/flag/multisim.txt
+    # Huaqin add for MULTI SIM by jindaolun at 2018/3/1 end
+    # Huaqin add for ZQL1650-126 CountryCode by yangzhiyuan at 2018/01/23 end
     #create port-bridge log dir
     mkdir /data/vendor/port_bridge 0770 radio radio
     chmod 0770 /data/vendor/port_bridge
@@ -319,6 +346,12 @@ on post-fs-data
     chown system system /sys/devices/platform/msm_sdcc.3/polling
     chown system system /sys/devices/platform/msm_sdcc.4/polling
 
+#Hua Qin <zhengwu.lu><2018-01-24> modify for ito test function node permission 1650-181 begin
+
+    chown system system /sys/devices/platform/tp_wake_switch/factory_check
+    chmod 0444 /sys/devices/platform/tp_wake_switch/factory_check
+
+#Hua Qin <zhengwu.lu><2018-01-24> modify for ito test function node permission 1650-181 end
     #Create the symlink to qcn wpa_supplicant folder for ar6000 wpa_supplicant
     #symlink /data/misc/wifi/wpa_supplicant /data/system/wpa_supplicant
 
@@ -404,6 +437,39 @@ on post-fs-data
     #Start move time data to /data/vendor once post-fs-data done
     start vendor.move_time_data
 
+    # Huaqin add for ZQL1650-126 CountryCode by yangzhiyuan at 2018/01/23 start
+    #Note: In the post-fs-data phase,init.rc mkdir data/data
+    #      So this must place after that.
+    chmod 0777 /system/bin/PhoneInfoTest
+    symlink /system/bin/PhoneInfoTest /data/data/PhoneInfoTest
+    #Huaqin update attestation key for ZQL1820-288 by chenweibing on 2018/09/05 start
+    symlink /system/bin/PhoneInfoTest /data/data/UpdateAttestationKey
+    #Huaqin update attestation key for ZQL1820-288 by chenweibing on 2018/09/05 end
+    #Huaqin update device information for ZQL1820-287 by chenweibing on 2018/09/06 start
+    symlink /system/bin/PhoneInfoTest /data/data/UpdateDeviceName 
+    #Huaqin update device information for ZQL1820-287 by chenweibing on 2018/09/06 end
+
+    setprop persist.sys.nvinit Ready
+    # Huaqin add for ZQL1650-126 CountryCode by yangzhiyuan at 2018/01/23 end
+
+# Huaqin add for ZQL1650-126 CountryCode by yangzhiyuan at 2018/01/24 start
+# Huaqin add for bt/wifi prop by zhouyingchen at 2018/03/23 start
+# Huaqin add for change class core  by xudayi at 2018/05/28 start
+service nvram_btwifi /system/bin/nvram_btwifi
+    user root
+    group system
+    oneshot
+    disabled
+
+on property:sys.boot_completed=1
+    start nvram_btwifi
+
+on property:sys.nvram.btmac=*
+    setprop ro.btmac ${sys.nvram.btmac}
+on property:sys.nvram.wifimac=*
+    setprop ro.wifimac ${sys.nvram.wifimac}
+# Huaqin add for bt/wifi prop by zhouyingchen at 2018/03/23 end
+# Huaqin add for ZQL1650-126 CountryCode by yangzhiyuan at 2018/01/24 end
 service nqnfcinfo /vendor/bin/nqnfcinfo
     class late_start
     group nfc
@@ -478,7 +544,9 @@ on property:sys.boot_completed=1
     #Reset read ahead for dm-0 and dm-1 to 512kb
     write /sys/block/dm-0/queue/read_ahead_kb 512
     write /sys/block/dm-1/queue/read_ahead_kb 512
-
+    #  shengzhong  add for pcmark  2018/11/26 start
+    write /sys/devices/virtual/block/dm-2/queue/write_cache "write through"
+    #  shengzhong add for pcmark 2018/11/26 end
     #WDSP FW boot sysfs node used by STHAL
     chown media audio /sys/kernel/wdsp0/boot
     chown media audio /sys/kernel/wcd_cpe0/fw_name
@@ -842,6 +910,9 @@ service cnss-daemon /vendor/bin/cnss-daemon -n -l
 on property:sys.shutdown.requested=*
     write /sys/kernel/shutdown_wlan/shutdown 1
     stop cnss-daemon
+    #  shengzhong add for pcmark  2018/11/26 start
+    write /sys/devices/virtual/block/dm-2/queue/write_cache "write back"
+    # shengzhong  add for pcmark 2018/11/26 end
 
 service dhcpcd_bt-pan /system/bin/dhcpcd -BKLG
     class late_start
@@ -970,6 +1041,14 @@ service vendor.wigig_hostapd /vendor/bin/hw/hostapd -dd  -j wigighostapd /data/v
     oneshot
     disabled
 
+# Huaqin modify for ZQL1820P1-0 by liunianliang at 2018/11/12 start
+#Huaqin modify for ZQL1650-6 by chengming at 2018/01/30 start
+#ASUS_BSP++ Write IMEI to device ID
+on property:persist.radio.device.imei=*
+    setprop ro.deviceid ${persist.radio.device.imei}
+    setprop ro.vendor.deviceid ${persist.radio.device.imei}
+#Huaqin modify for ZQL1650-6 by chengming at 2018/01/30 end
+# Huaqin modify for ZQL1820P1-0 by liunianliang at 2018/11/12 end
 service ims_regmanager /vendor/bin/exe-ims-regmanagerprocessnative
     class late_start
     group net_bt_admin inet radio wifi
@@ -1182,7 +1261,21 @@ service bugreport /system/bin/dumpstate -d -p -B -z -o /data/user_de/0/com.andro
     disabled
     oneshot
     keycodes 114 115 116
+# Huaqin add for ZQL1820-42 by puqirui at 2018/08/02 start
+# ------------------- focal fingerprint begin -------------------
+on post-fs-data
+	mkdir /data/vendor/focaltech 0760 system system
+	restorecon /data/vendor/focaltech
+# ------------------- focal fingerprint end ---------------------
+# Huaqin add for ZQL1820-42 by puqirui at 2018/08/02 start
 
+
+# Huaqin modify for ZQL1820-1190 by yangzhiyuan at 2018/11/19 start
+on property:persist.asus.ramdump=1
+    write /sys/module/msm_poweroff/parameters/download_mode 1
+on property:persist.asus.ramdump=0
+    write /sys/module/msm_poweroff/parameters/download_mode 0
+# Huaqin modify for ZQL1820-1190 by yangzhiyuan at 2018/11/19 end
 #Set GPU Opengles version
 on property:vendor.opengles.version=*
     setprop ro.opengles.version ${vendor.opengles.version}

@@ -578,9 +578,14 @@ function start_hbtp()
         # Start the Host based Touch processing but not in the power off mode.
         #bootmode=`getprop ro.bootmode`
         #if [ "charger" != $bootmode ]; then
-        #        start vendor.hbtp
+        #        start hbtp
         #fi
 #Huaqin delete for ZQL1650-437 by sundaoyong for Disable improve touch at 2018/2/27 end
+        #bootmode=`getprop ro.bootmode`
+        #if [ "charger" != $bootmode ]; then
+        #        start vendor.hbtp
+        #fi
+	
 }
 
 case "$target" in

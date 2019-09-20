@@ -425,11 +425,13 @@ else
 fi
 boot_reason=`cat /proc/sys/kernel/boot_reason`
 reboot_reason=`getprop ro.boot.alarmboot`
+# Huaqin modify for ZQL1820P1-0 by liunianliang at 2018/11/12 start
 if [ "$boot_reason" = "3" ] || [ "$reboot_reason" = "true" ]; then
     setprop ro.vendor.alarm_boot true
 else
     setprop ro.vendor.alarm_boot false
 fi
+# Huaqin modify for ZQL1820P1-0 by liunianliang at 2018/11/12 end
 
 # copy GPU frequencies to vendor property
 if [ -f /sys/class/kgsl/kgsl-3d0/gpu_available_frequencies ]; then

@@ -164,6 +164,13 @@ firmware_directories /vendor/firmware_mnt/image/
 /* Huaqin add for ZQL1650-143 by wangxiang at 2018/02/09 end */
 /dev/goodix_fp            0666   system     system
 /* Huaqin add for ZQL1650-143 by wangxiang at 2018/02/09 end */
+/* Huaqin add for ZQL1820-42 by puqirui at 2018/08/02 start */
+/dev/focaltech_fp         0666   system     system
+/* Huaqin add for ZQL1820-42 by puqirui at 2018/08/02 end */
+#QDSS
+/dev/byte-cntr            0660   system    oem_2902
+/dev/mhi_qdss             0660   system    oem_2902
+/sys/class/qdss_bridge/mhi_qdss  mode      0660     system   oem_2902
 
 # wlan
 /dev/wcnss_wlan           0660   system     system
