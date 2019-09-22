@@ -280,6 +280,15 @@ PRODUCT_PACKAGES += \
     libregistermsext \
     mediametrics
 
+# Device modules
+PRODUCT_PACKAGES += \
+    ashmemd \
+    libashmemd_client \
+    libldacBT_dec \
+    libGLESv2_adreno \
+    libmmcamera_llvd \
+    libqdma_file_agent
+
 # Netutils
 PRODUCT_PACKAGES += \
     android.system.net.netd@1.0 \
