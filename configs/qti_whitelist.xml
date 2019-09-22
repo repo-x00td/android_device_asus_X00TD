@@ -118,4 +118,14 @@
     <hidden-api-whitelisted-app package="com.qti.service.colorservice" />
 	
     <allow-implicit-broadcast action="android.intent.action.DROPBOX_ENTRY_ADDED" />
+    <allow-implicit-broadcast action="android.intent.action.USER_PRESENT" />
+    <allow-implicit-broadcast action="android.intent.action.PACKAGE_ADDED" />
+    <allow-implicit-broadcast action="android.location.PROVIDERS_CHANGED" />
+    <allow-implicit-broadcast action="android.location.MODE_CHANGED" />
+    <allow-implicit-broadcast action="android.bluetooth.adapter.action.STATE_CHANGED" />
+    <allow-implicit-broadcast action="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED" />	
+    <allow-implicit-broadcast action="android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED" />	
+    <allow-implicit-broadcast action="android.bluetooth.device.action.UUID" />
+    <allow-implicit-broadcast action="android.speech.action.GET_LANGUAGE_DETAILS" />	
+
 </config>
