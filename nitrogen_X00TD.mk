@@ -37,6 +37,10 @@ PRODUCT_SOONG_NAMESPACES += \
     hardware/qcom/audio-$(TARGET_QCOM_AUDIO_VARIANT) \
     hardware/qcom/media-$(TARGET_QCOM_MEDIA_VARIANT)
 
+# Long screenshot
+PRODUCT_PACKAGES += \
+    Longshot
+
 # Inherit from X00TD device
 $(call inherit-product, $(LOCAL_PATH)/device.mk)
 
