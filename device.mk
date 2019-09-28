@@ -220,10 +220,6 @@ PRODUCT_PACKAGES += \
     android.hidl.manager@1.0 \
     android.hidl.manager@1.0-java
 
-# IMS
-PRODUCT_PACKAGES += \
-    ims-ext-common
-
 # IPv6
 PRODUCT_PACKAGES += \
     ebtables \
@@ -258,10 +254,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.light@2.0-impl \
     android.hardware.light@2.0-service
-
-# LiveDisplay native
-PRODUCT_PACKAGES += \
-    vendor.lineage.livedisplay@2.0-service-sdm
 
 # Low power Whitelist
 PRODUCT_COPY_FILES += \
@@ -419,13 +411,6 @@ PRODUCT_COPY_FILES += \
 # System properties
 -include $(LOCAL_PATH)/system_prop.mk
 
-# Telephony
-PRODUCT_PACKAGES += \
-    telephony-ext
-
-PRODUCT_BOOT_JARS += \
-    telephony-ext
-
 # Tetheroffload
 PRODUCT_PACKAGES += \
     ipacm \
@@ -449,10 +434,6 @@ PRODUCT_COPY_FILES += \
 # Touchscreen
 PRODUCT_PACKAGES += \
     libtinyxml2
-
-# Trust HAL
-PRODUCT_PACKAGES += \
-    vendor.lineage.trust@1.0-service
 
 # USB
 PRODUCT_PACKAGES += \

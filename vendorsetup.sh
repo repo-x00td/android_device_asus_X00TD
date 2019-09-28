@@ -1,1 +1,1 @@
-add_lunch_combo aosp_X00TD-userdebug
+add_lunch_combo nitrogen_X00TD-userdebug

@@ -156,12 +156,9 @@ VSYNC_EVENT_PHASE_OFFSET_NS := 2000000
 # DRM
 TARGET_ENABLE_MEDIADRM_64 := true
 
-# Enable dexpreopt to speed boot time
-ifeq ($(HOST_OS),linux)
-  ifneq ($(TARGET_BUILD_VARIANT),eng)
-    WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false
-  endif
-endif
+# DEX
+WITH_DEXPREOPT := true
+DONT_DEXPREOPT_PREBUILTS := true
 
 # Filesystem
 TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/config.fs

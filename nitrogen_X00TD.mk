@@ -16,16 +16,41 @@
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_o_mr1.mk)
 
-# Inherit some common EVO stuff.
-$(call inherit-product, vendor/aosp/config/common_full_phone.mk)
+# Inherit some common Nitrogen stuff
+$(call inherit-product, vendor/nitrogen/products/common.mk)
+$(call inherit-product, vendor/nitrogen/config/qcom_target.mk)
+TARGET_SCREEN_WIDTH := 1080
 
-# Changes for Evolution X
-TARGET_BOOT_ANIMATION_RES := 1080
-TARGET_BOOT_ANIMATION_RES_EVO := true
-TARGET_GAPPS_ARCH := arm64
+TARGET_USES_MKE2FS := true
+
+# Dalvik & HWUI overrides
+$(call inherit-product, vendor/nitrogen/config/phone-xxxhdpi-3072-dalvik-heap.mk)
+$(call inherit-product, vendor/nitrogen/config/phone-xxxhdpi-3072-hwui-memory.mk)
+
+# Long screenshot
+PRODUCT_PACKAGES += \
+    Longshot
+
+# Hals
+TARGET_QCOM_DISPLAY_VARIANT := caf-msm8998
+TARGET_QCOM_AUDIO_VARIANT := caf-msm8998
+TARGET_QCOM_MEDIA_VARIANT := caf-msm8998
+TARGET_QCOM_BLUETOOTH_VARIANT := caf-msm8998
+
+PRODUCT_SOONG_NAMESPACES += \
+    hardware/qcom/display-$(TARGET_QCOM_DISPLAY_VARIANT) \
+    hardware/qcom/audio-$(TARGET_QCOM_AUDIO_VARIANT) \
+    hardware/qcom/media-$(TARGET_QCOM_MEDIA_VARIANT)
+
+USE_DEVICE_SPECIFIC_DISPLAY := true
+DEVICE_SPECIFIC_DISPLAY_PATH := hardware/qcom/display-caf-msm8998
+USE_DEVICE_SPECIFIC_AUDIO := true
+DEVICE_SPECIFIC_AUDIO_PATH := hardware/qcom/audio-caf-msm8998
+USE_DEVICE_SPECIFIC_MEDIA := true
+DEVICE_SPECIFIC_MEDIA_PATH := hardware/qcom/media-caf-msm8998
 
 # Inherit from X00TD device
 $(call inherit-product, $(LOCAL_PATH)/device.mk)
@@ -33,7 +58,7 @@ $(call inherit-product, $(LOCAL_PATH)/device.mk)
 PRODUCT_BRAND := asus
 PRODUCT_DEVICE := X00TD
 PRODUCT_MANUFACTURER := asus
-PRODUCT_NAME := aosp_X00TD
+PRODUCT_NAME := nitrogen_X00TD
 PRODUCT_MODEL := Zenfone Max Pro M1
 
 PRODUCT_GMS_CLIENTID_BASE := android-asus
